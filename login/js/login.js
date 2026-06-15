@@ -12,6 +12,11 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
   if (user) {
     localStorage.setItem('loggedInUser', username);
+    localStorage.setItem('username', username);
+    window.location.href = '../index.html';
+} else {
+    alert('Username/password salah, atau belum registrasi!');
+}
     window.location.href = '../index.html';
   } else {
     alert('Username/password salah, atau belum registrasi!');
