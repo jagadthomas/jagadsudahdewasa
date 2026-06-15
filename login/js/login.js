@@ -1,36 +1,19 @@
-document.getElementById("loginForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-    const res = await fetch("https://herisusanta.my.id/javalogin/api/auth.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `action=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-    });
+  // Ambil data user dari localStorage
+  let users = JSON.parse(localStorage.getItem('users') || '[]');
 
-    const data = await res.json();
+  // Cek apakah user terdaftar
+  const user = users.find(u => u.username === username && u.password === password);
 
-    if (data.status === "success") {
-        // simpan username
-            localStorage.setItem("username", data.username);
-            window.location.href = "../index.html";
-         
-    // } else {
-    //     document.getElementById("message").innerText = "Username / Password salah";alert("Login gagal");
-    // }
-    
-    } else {
-    const alertBox = document.getElementById("alertBox");
-    alertBox.innerText = "Username atau Password salah, silahkan coba lagi";
-    alertBox.style.display = "block";
-
-    setTimeout(() => {
-        alertBox.style.display = "none";
-    }, 3000);
-} 
-   
+  if (user) {
+    localStorage.setItem('loggedInUser', username);
+    window.location.href = '../index.html';
+  } else {
+    alert('Username/password salah, atau belum registrasi!');
+  }
 });
